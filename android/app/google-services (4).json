@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "376170131125",
+    "project_id": "i-can-12ac4",
+    "storage_bucket": "i-can-12ac4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:376170131125:android:d44dedb0e81911a2cdd8fc",
+        "android_client_info": {
+          "package_name": "com.example.ican"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "376170131125-fo7e8ui1m9jegfv4u09i0d18jnc06iar.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAeIyq_pEuN3iVMtqavjPnFB3S0gppQ4Sg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "376170131125-fo7e8ui1m9jegfv4u09i0d18jnc06iar.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

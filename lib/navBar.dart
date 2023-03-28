@@ -1,5 +1,5 @@
 
-// ignore_for_file: avoid_returning_null_for_void
+// ignore_for_file: avoid_returning_null_for_void, file_names
 
 import 'package:flutter/material.dart';
 
@@ -28,7 +28,7 @@ class NavBar extends StatelessWidget {
               ),
             ),
             decoration: const BoxDecoration(
-              color: Colors.blue,
+              color: Color.fromARGB(255, 205, 0, 0),
               image: DecorationImage(
                   fit: BoxFit.fill,
                   image: NetworkImage(
@@ -36,33 +36,18 @@ class NavBar extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: const Icon(Icons.favorite),
-            title: const Text('Favorites'),
+            leading: const Icon(Icons.home),
+            title: const Text('Home'),
             onTap: () => null,
           ),
           ListTile(
             leading: const Icon(Icons.person),
-            title: const Text('Friends'),
-            onTap: () => null,
-          ),
-          ListTile(
-            leading: const Icon(Icons.share),
-            title: const Text('Share'),
-            onTap: () => null,
-          ),
-          const ListTile(
-            leading: Icon(Icons.notifications),
-            title: Text('Request'),
-          ),
-          const Divider(),
-          ListTile(
-            leading: const Icon(Icons.settings),
-            title: const Text('Settings'),
+            title: const Text('Profile'),
             onTap: () => null,
           ),
           ListTile(
             leading: const Icon(Icons.description),
-            title: const Text('Policies'),
+            title: const Text('About us'),
             onTap: () => null,
           ),
           const Divider(),
