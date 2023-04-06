@@ -1,7 +1,6 @@
-// ignore_for_file: depend_on_referenced_packages
-
 import 'package:flutter/material.dart';
-import 'package:ican/auth.dart';
+import 'package:ican/authorization/auth.dart';
+import 'package:ican/home.dart';
 
 void main() async {
   // DBConnection().connectDB();
@@ -21,7 +20,7 @@ class MyThemeApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const AuthPage(),
-        '/home': (context) => const AuthPage(),
+        '/home': (context) => const HomePage(),
       },
     );
   }

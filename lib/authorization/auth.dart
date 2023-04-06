@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'components/authorization_input.dart';
-import 'components/margin.dart';
-import 'navBar.dart';
+import '../components/authorization_input.dart';
+import '../components/margin.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({super.key});
@@ -11,7 +10,6 @@ class AuthPage extends StatelessWidget {
     var primaryColor = const Color.fromARGB(255, 255, 255, 255);
     var iconColor = const Color.fromARGB(255, 255, 0, 0);
     return Scaffold(
-      drawer: const NavBar(),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -67,7 +65,8 @@ class AuthPage extends StatelessWidget {
                     color: primaryColor,
                   ),
                 ),
-                onTap: () => {},
+                onTap: () => {
+                },
               ),
             ],
           ),
