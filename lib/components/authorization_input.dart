@@ -5,9 +5,11 @@ class AuthorizationInput extends StatelessWidget {
   final String labelText ;
   final Color color;
   final Icon icon;
+  final TextEditingController? controller;
 
 
-  const AuthorizationInput({
+  const AuthorizationInput(
+    this.controller,{
     super.key,
     this.labelText = "Text",
     this.color = const Color.fromARGB(255, 255, 255, 255),
@@ -21,6 +23,7 @@ class AuthorizationInput extends StatelessWidget {
     return SizedBox(
       width: MediaQuery.of(context).size.width * _widthScale,
       child: TextField(
+        controller: controller,
         style: const TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
         cursorColor: color,
         decoration: InputDecoration(

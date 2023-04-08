@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:ican/NavBar.dart';
 import 'package:ican/scroll.dart';
