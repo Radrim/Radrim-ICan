@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ican/NavBar.dart';
-import 'package:ican/scroll.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -23,7 +22,6 @@ class _HomePageState extends State<HomePage> {
 
   Widget getCurrentPage(int index) {
     final listPages = [
-      const CardPage(),
     ];
 
     return listPages[index];

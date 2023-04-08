@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ican/authorization/auth.dart';
 import 'package:ican/home.dart';
+import 'package:ican/pages/targets.dart';
 
 void main() async {
   // DBConnection().connectDB();
@@ -22,7 +23,7 @@ class MyThemeApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const AuthPage(),
-        '/home': (context) => const HomePage(),
+        '/home': (context) => const TargetsPage(),
       },
     );
   }
