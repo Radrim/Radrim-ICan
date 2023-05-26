@@ -17,11 +17,12 @@ class _AuthPageState extends State<AuthPage> {
   final AuthServices _service = AuthServices();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _loginController = TextEditingController();
 
   Future signIn() async {
     var user =
         await _service.signIn(_emailController.text, _passwordController.text);
-        if (user != null){
+        if (user == null){
           Navigator.popAndPushNamed(context, '/home');
         } 
         else {
@@ -86,6 +87,17 @@ class _AuthPageState extends State<AuthPage> {
               const AuthorizationMargin(
                 heightScale: 0.05,
               ),
+
+              Visibility(
+              visible: _isRegister ? true : false,
+              child: AuthorizationInput(
+                _loginController,
+                color: primaryColor,
+                icon: Icon(Icons.email, color: iconColor),
+                labelText: 'Login',
+              ),
+              ),
+
               AuthorizationInput(
                 _emailController,
                 color: primaryColor,

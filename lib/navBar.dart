@@ -38,7 +38,7 @@ class NavBar extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.home),
             title: const Text('Home'),
-            onTap: () => null,
+            onTap: () => Navigator.popAndPushNamed(context, '/home'),
           ),
           ListTile(
             leading: const Icon(Icons.person),
@@ -48,7 +48,7 @@ class NavBar extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.description),
             title: const Text('About us'),
-            onTap: () => null,
+            onTap: () => Navigator.popAndPushNamed(context, '/aboutUs'),
           ),
           const Divider(),
           ListTile(

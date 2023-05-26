@@ -6,6 +6,7 @@ class AuthorizationInput extends StatelessWidget {
   final Color color;
   final Icon icon;
   final TextEditingController? controller;
+  final Visibility? visibility;
 
 
   const AuthorizationInput(
@@ -16,6 +17,7 @@ class AuthorizationInput extends StatelessWidget {
     this.icon = const Icon(
       Icons.abc,
     ),
+    this.visibility,
   });
 
   @override
