@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1074076655105",
+    "project_id": "flutterican",
+    "storage_bucket": "flutterican.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1074076655105:android:e81ef836895f826bec2a00",
+        "android_client_info": {
+          "package_name": "com.example.ican"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAducoKhCRh3d2lU2wb7HXSkzCDfYGh2o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
