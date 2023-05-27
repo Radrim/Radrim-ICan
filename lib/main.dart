@@ -24,7 +24,8 @@ class MyThemeApp extends StatelessWidget {
       routes: {
         '/': (context) => const AuthPage(),
         '/home': (context) => const TargetsPage(),
-        '/aboutUs': (context) => const AboutUsPage()
+        '/aboutUs': (context) => const AboutUsPage(),
+        '/auth' : (context) => const AuthPage()
       },
     );
   }

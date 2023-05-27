@@ -3,7 +3,6 @@ import 'model.dart';
 
 class AuthServices {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-
   Stream<UserModel?> get currentUser {
     return _firebaseAuth.authStateChanges().map(
         (User? user) => user != null ? UserModel.fromFirebase(user) : null);

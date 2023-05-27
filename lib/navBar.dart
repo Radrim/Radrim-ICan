@@ -2,6 +2,7 @@
 // ignore_for_file: avoid_returning_null_for_void, file_names
 
 import 'package:flutter/material.dart';
+import 'package:ican/pages/targets.dart';
 
 
 class NavBar extends StatelessWidget {
@@ -11,7 +12,6 @@ class NavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
-        // Remove padding
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
@@ -19,8 +19,7 @@ class NavBar extends StatelessWidget {
             accountEmail: const Text('example@gmail.com'),
             currentAccountPicture: CircleAvatar(
               child: ClipOval(
-                child: Image.network(
-                  'https://oflutter.com/wp-content/uploads/2021/02/girl-profile.png',
+                child: Image.network('https://oflutter.com/wp-content/uploads/2021/02/girl-profile.png',
                   fit: BoxFit.cover,
                   width: 90,
                   height: 90,
@@ -54,7 +53,11 @@ class NavBar extends StatelessWidget {
           ListTile(
             title: const Text('Exit'),
             leading: const Icon(Icons.exit_to_app),
-            onTap: () => null,
+            onTap: () => Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => const TargetsPage()),
+                          (Route<dynamic> route) => false,
+                        )
           ),
         ],
       ),

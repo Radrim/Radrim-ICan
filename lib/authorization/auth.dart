@@ -30,7 +30,7 @@ class _AuthPageState extends State<AuthPage> {
               context: context,
               builder: (context) {
               return const AlertDialog(
-              content: Text('Wrong password or login'),
+              content: Text('Неверный пароль или логин!'),
               );
             });
         }
@@ -44,7 +44,7 @@ class _AuthPageState extends State<AuthPage> {
               context: context,
               builder: (context) {
               return const AlertDialog(
-              content: Text('Wrong data'),
+              content: Text('Данные заполнены некорректно'),
               );
             });
         }
@@ -53,7 +53,7 @@ class _AuthPageState extends State<AuthPage> {
               context: context,
               builder: (context) {
               return const AlertDialog(
-              content: Text('Success'),
+              content: Text('Регистрация успешна'),
               );
             });
         }
@@ -94,7 +94,7 @@ class _AuthPageState extends State<AuthPage> {
                 _loginController,
                 color: primaryColor,
                 icon: Icon(Icons.email, color: iconColor),
-                labelText: 'Login',
+                labelText: 'Логин',
               ),
               ),
 
@@ -109,7 +109,7 @@ class _AuthPageState extends State<AuthPage> {
                 _passwordController,
                 color: primaryColor,
                 icon: Icon(Icons.email, color: iconColor),
-                labelText: 'Password',
+                labelText: 'Пароль',
               ),
               const AuthorizationMargin(),
               SizedBox(
@@ -127,13 +127,13 @@ class _AuthPageState extends State<AuthPage> {
                   onPressed: () {
                     _isRegister ? signUp() : signIn();
                   },
-                  child: Text(_isRegister ? 'Register' : 'Sign in'),
+                  child: Text(_isRegister ? 'Зарегистрироваться' : 'Войти'),
                 ),
               ),
               const AuthorizationMargin(),
               InkWell(
                 child: Text(
-                 _isRegister ? 'Sign in?' : "Sign up?",
+                 _isRegister ? 'У меня есть аккаунт' : "У меня нет аккаунта...",
                   style: TextStyle(
                     color: primaryColor,
                   ),
