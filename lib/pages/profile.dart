@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ican/NavBar.dart';
+import 'package:ican/components/navBar.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -7,15 +7,8 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-        toolbarHeight: MediaQuery.of(context).size.height * 0.08,
-        centerTitle: true,
-        title: Image.asset(
-          'images/ICANicon.png',
-          width: 180
-        )
-      ),
+      backgroundColor: Colors.white,
+      appBar: AppBar(),
       drawer: const NavBar(),
     );
   }

@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ican/authorization/auth.dart';
 import 'package:ican/pages/about_us.dart';
+import 'package:ican/pages/profile.dart';
 import 'package:ican/pages/targets.dart';
 
 void main() async {
@@ -25,7 +26,8 @@ class MyThemeApp extends StatelessWidget {
         '/': (context) => const AuthPage(),
         '/home': (context) => const TargetsPage(),
         '/aboutUs': (context) => const AboutUsPage(),
-        '/auth' : (context) => const AuthPage()
+        '/auth' : (context) => const AuthPage(),
+        '/profile' : (context) => const ProfilePage()
       },
     );
   }

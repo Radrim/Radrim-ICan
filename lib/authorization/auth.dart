@@ -1,5 +1,4 @@
 // ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:ican/authorization/service.dart';
 import '../components/authorization_input.dart';
@@ -22,7 +21,7 @@ class _AuthPageState extends State<AuthPage> {
   Future signIn() async {
     var user =
         await _service.signIn(_emailController.text, _passwordController.text);
-        if (user == null){
+        if (user != null){
           Navigator.popAndPushNamed(context, '/home');
         } 
         else {
@@ -56,6 +55,7 @@ class _AuthPageState extends State<AuthPage> {
               content: Text('Регистрация успешна'),
               );
             });
+           _service.saveUserToDb(context, _loginController.text, _emailController.text, _passwordController.text);
         }
   }
 

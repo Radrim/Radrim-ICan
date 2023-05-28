@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ican/navBar.dart';
+import 'package:ican/components/appBar.dart';
+import 'package:ican/components/navBar.dart';
 
 class TargetsPage extends StatefulWidget {
   const TargetsPage({super.key});
@@ -58,7 +59,7 @@ class _ArticleDescription extends StatelessWidget {
                   borderRadius: BorderRadius.circular(0.0),
                   side: const BorderSide(color: Color.fromRGBO(0, 0, 0, 1))),
                   //padding: const EdgeInsets.all(10.0),
-                  backgroundColor: Color.fromARGB(255, 255, 0, 0),
+                  backgroundColor: const Color.fromARGB(255, 255, 0, 0),
                 ),
                 onPressed: () {},
                 child: const Text(
@@ -163,15 +164,7 @@ class _TargetsPageState extends State<TargetsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-        toolbarHeight: MediaQuery.of(context).size.height * 0.08,
-        centerTitle: true,
-        title: Image.asset(
-          'images/ICANicon.png',
-          width: 180
-        )
-      ),
+      appBar: buildAppBar(context),
       drawer: const NavBar(),
       body:
           ListView.builder(

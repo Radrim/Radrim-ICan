@@ -1,5 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/widgets.dart';
 import 'model.dart';
+import 'package:flutter/cupertino.dart';
+
+
 
 class AuthServices {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -36,6 +41,22 @@ class AuthServices {
       return UserModel.fromFirebase(user);
     } catch (e) {
       return null;
+    }
+  }
+
+  Future saveUserToDb(BuildContext context, String username, String email, String password) async
+  {
+    try{
+      //CollectionReference usersCollection = FirebaseFirestore.instance.collection('Users');
+      var firebaseUser =  FirebaseAuth.instance.currentUser;
+          FirebaseFirestore.instance.collection("Users").doc(firebaseUser?.uid).set({
+          'username': username,
+          'email': email,
+      });
+    }
+    catch (e) 
+    {
+      return;
     }
   }
 
