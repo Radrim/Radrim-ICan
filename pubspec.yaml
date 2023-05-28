@@ -17,6 +17,7 @@ dependencies:
   firebase_core: ^2.8.0
   firebase_pagination: ^3.0.0
   infinite_listview: ^1.1.0
+  getwidget: ^3.1.1
 
 dev_dependencies:
   flutter_test:
@@ -30,3 +31,15 @@ flutter:
     - images/ICANicon.png
     - images/Tyler.png
     - images/taz.jpg
+
+fonts:
+    - family: Open Sans
+      fonts:
+        - asset: assets/fonts/OpenSans-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/OpenSans-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/OpenSans-Light.ttf
+          weight: 300
+        - asset: assets/fonts/OpenSans-Regular.ttf
+          weight: 400

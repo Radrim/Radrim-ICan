@@ -12,7 +12,7 @@ class NavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
-    final _authService = AuthServices();
+    final authService = AuthServices();
 
     return Drawer(
       child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
@@ -69,7 +69,7 @@ class NavBar extends StatelessWidget {
             title: const Text('Выйти'),
             leading: const Icon(Icons.exit_to_app),
             onTap: () => {
-              _authService.logOut(),
+              authService.logOut(),
               Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => const AuthPage()),
                           (Route<dynamic> route) => false,)
                           }
