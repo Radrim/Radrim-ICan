@@ -7,7 +7,8 @@ import 'package:ican/components/appbar.dart';
 import 'package:ican/components/navBar.dart';
 
 class TargetInfoPage extends StatefulWidget {
-  const TargetInfoPage({super.key});
+  final String? id;
+  const TargetInfoPage({super.key, required this.id});
 
   @override
   State<TargetInfoPage> createState() => _TargetInfoPage();
@@ -25,12 +26,15 @@ class _TargetInfoPage extends State<TargetInfoPage> {
       _comments.add(comment);
     });
   }
+  Stream<DocumentSnapshot<Map<String, dynamic>>>? _usersStream;
+      
 
-  final Stream<DocumentSnapshot<Map<String, dynamic>>> _usersStream =
-      FirebaseFirestore.instance
-          .collection('Targets')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .snapshots();
+  @override
+  void initState() {
+    _usersStream = FirebaseFirestore.instance
+          .collection('Targets').doc(widget.id).snapshots();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

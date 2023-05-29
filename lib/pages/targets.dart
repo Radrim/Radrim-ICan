@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ican/components/appBar.dart';
 import 'package:ican/components/navBar.dart';
+import 'package:ican/pages/targetInfo.dart';
 
 
 class TargetsPage extends StatefulWidget {
@@ -118,7 +119,11 @@ TextStyle CheckRating(rating){
                   child: TextButton(
                     style: TextButton.styleFrom(
                         backgroundColor: Colors.red),
-                    onPressed: () => Navigator.popAndPushNamed(context, '/targetInfo'),
+                    onPressed: ()
+                    {
+                       Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              TargetInfoPage(id: docs['id'])));},
                     child: const Text(
                       "Просмотреть",
                       style: TextStyle(

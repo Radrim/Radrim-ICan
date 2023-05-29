@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:ican/authorization/service.dart';
 import 'package:ican/components/image_service.dart'; 
 
 class TargetService
@@ -16,16 +17,20 @@ class TargetService
 
   createTarget(BuildContext context, String title, String description, String username, File? img) async
   {  
+    
     Reference ref = FirebaseStorage.instance.ref().child("targetImages/${FirebaseAuth.instance.currentUser?.uid}");
     await ref.putFile(img!);
     String downloadUrl = await ref.getDownloadURL();
 
-    var firebaseUser =  FirebaseAuth.instance.currentUser;
-          FirebaseFirestore.instance.collection("Targets").doc(firebaseUser?.uid).set({
+    FirebaseFirestore.instance.collection("Targets").add({
     'title': title,
     'description': description,
     'image': downloadUrl,
     'author': username,
+    'email' : FirebaseAuth.instance.currentUser!.email
+    
+    }).then((DocumentReference doc){
+      FirebaseFirestore.instance.collection('Targets').doc(doc.id).update({'id': doc.id});
     });
 
 

@@ -34,7 +34,7 @@ class MyThemeApp extends StatelessWidget {
         '/createTarget' : (context) => CreateTargetPage(),
         '/profile' : (context) => const ProfilePage(),
         '/userTargets' : (context) => const UserTarget(),
-        '/targetInfo' : (context) => const TargetInfoPage()
+        '/targetInfo' : (context) =>  const TargetInfoPage(id: null)
       },
     );
   }

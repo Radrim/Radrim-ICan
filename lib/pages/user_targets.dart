@@ -78,7 +78,21 @@ TextStyle CheckRating(rating){
         color: Colors.black,
         child: Column(
           children: [
-
+    
+      // Column(
+      //   children: [
+      //     Text(
+      //       docs['id'],
+      //       style: const TextStyle(
+      //         fontSize: 20,
+      //         color: Color.fromARGB(255, 0, 0, 0),
+      //         fontWeight: FontWeight.w900,
+      //         fontStyle: FontStyle.italic,
+      //         fontFamily: 'Open Sans',
+      //       ),
+      //     ),
+      //   ],
+      // ),
       Column(
         children: [
           Text(
@@ -102,7 +116,7 @@ TextStyle CheckRating(rating){
                   child: TextButton(
                     style: TextButton.styleFrom(
                         backgroundColor: Colors.red),
-                    onPressed: () => ratingPlus(true),
+                    onPressed: () => ratingPlus(true, docs['id']),
                     child: const Text(
                       "Добился",
                       style: TextStyle(
@@ -120,7 +134,7 @@ TextStyle CheckRating(rating){
                   child: TextButton(
                     style: TextButton.styleFrom(
                         backgroundColor: Colors.red),
-                    onPressed: () => ratingPlus(false),
+                    onPressed: () => ratingPlus(false, docs['id']),
                     child: const Text(
                       "Не добился",
                       style: TextStyle(
@@ -140,12 +154,13 @@ TextStyle CheckRating(rating){
       )
     );
   }
-          void ratingPlus (bool isUp) async {
-              CollectionReference deals =  FirebaseFirestore.instance.collection('Users');
-              var deal = await deals.doc(FirebaseAuth.instance.currentUser!.uid).get();
-                        deals.doc(FirebaseAuth.instance.currentUser!.uid).update({
-                        "rating":  isUp? deal['rating'] + 100 :deal['rating'] - 100});
-              }
+          void ratingPlus (bool isUp, String id) async {
+            CollectionReference deals =  FirebaseFirestore.instance.collection('Users');
+            var deal = await deals.doc(FirebaseAuth.instance.currentUser!.uid).get();
+                      deals.doc(FirebaseAuth.instance.currentUser!.uid).update({
+                      "rating":  isUp? deal['rating'] + 100 :deal['rating'] - 100});
+            FirebaseFirestore.instance.collection('Targets').doc(id).delete();
+            }
   
   @override
   Widget build(BuildContext context, ) {

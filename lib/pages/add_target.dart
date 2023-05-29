@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:ican/components/appbar.dart';
 import 'dart:io';
 import 'package:ican/components/target_service.dart';
-import 'package:ican/models/target.dart';
+import 'package:ican/pages/targets.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CreateTargetPage extends StatefulWidget {
@@ -18,8 +18,6 @@ class Create extends State<CreateTargetPage> {
   final TargetService _targetService = TargetService();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-  final bool _loading = false;
-  Target? newTarget = Target();
   File? image;
   String? downloadUrl;
   ImagePicker imagePicker = ImagePicker();
@@ -127,18 +125,27 @@ final Stream<DocumentSnapshot<Map<String,dynamic>>> _stream = FirebaseFirestore
                 ),
                 TextButton(
                   style: TextButton.styleFrom(
-                    foregroundColor: Colors.blue, 
-                    backgroundColor: Colors.red.withOpacity(0.38),
+                    foregroundColor: Color.fromARGB(255, 255, 255, 255),
+                    backgroundColor: Color.fromARGB(255, 0, 0, 0),
                   ),
                   onPressed: () => pickImage(),
                   child: Text('Выбрать изображение')
                   ),
                 TextButton(
                   style: TextButton.styleFrom(
-                    foregroundColor: Colors.blue, 
-                    backgroundColor: Colors.red.withOpacity(0.38),
+                    foregroundColor: const Color.fromARGB(255, 255, 255, 255), 
+                    backgroundColor: Color.fromARGB(255, 0, 0, 0),
                   ),
-                  onPressed: () => _targetService.createTarget(context, _titleController.text, _descriptionController.text, data['username'], image),
+                  onPressed: () => {
+                    _targetService.createTarget(context, _titleController.text, _descriptionController.text, data['username'], image),
+                    showDialog(context: context, 
+                    builder: (BuildContext context) 
+                    {
+                      return const AlertDialog(title: Text('Цель успешно создана'),);
+                    })
+                    },
+                
+                    
                   child: Text('Создать цель'),
                 )
               ],
