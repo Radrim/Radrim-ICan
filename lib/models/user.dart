@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ican/models/target.dart';
 
 class User 
@@ -27,30 +28,18 @@ class User
     };
   }
 
-  static User? fromMap(Map<dynamic, dynamic>? value) {
-    if (value == null) {
-      return null;
+    factory User.fromFirestore(
+      DocumentSnapshot<Map<String, dynamic>> snapshot,
+      SnapshotOptions? options,
+    ) {
+      final data = snapshot.data();
+      return User(
+        username: data?['username'],
+        email: data?['email'],
+        password: data?['password'],
+        image: data?['image'],
+        targets: data?['targets'],
+      );
     }
-    List<Target> targets = [];
-
-    if (value['targets'] != null)
-    {
-      (value['targets']).forEach((targets) {
-        targets.add(int.parse(targets.toString()));
-      });
-    }
-
-    return User(
-      username: value['username'],
-      email: value['email'],
-      password: value['password'],
-      image: value['image'],
-      targets: targets,
-    );
   }
-
-  @override
-  String toString() {
-    return ('{Username: $username, Email: $email, Password: $password}');
-  }
-}
+  

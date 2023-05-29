@@ -97,7 +97,7 @@ class _AuthPageState extends State<AuthPage> {
                 labelText: 'Логин',
               ),
               ),
-
+              const SizedBox(height: 15),
               AuthorizationInput(
                 _emailController,
                 color: primaryColor,

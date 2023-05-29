@@ -1,21 +1,21 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unused_element
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ican/components/appBar.dart';
 import 'package:ican/components/navBar.dart';
 
 
-class TargetsPage extends StatefulWidget {
-  const TargetsPage({super.key});
-  
+class UserTarget extends StatefulWidget {
+  const UserTarget({super.key});
+
   @override
-  State<TargetsPage> createState() => _TargetsPageState();
+  State<UserTarget> createState() => _TargetsPageState();
 }
 
 @override
-class _TargetsPageState extends State<TargetsPage> {
-  TextEditingController idTarget = TextEditingController();
+class _TargetsPageState extends State<UserTarget> {
 TextStyle CheckRating(rating){
     if (rating > 0){
       return TextStyle(
@@ -54,6 +54,8 @@ TextStyle CheckRating(rating){
     return '🚬';
   }
 
+ 
+
   Image? getTargetImage(dynamic docs){
     if (docs['image'] != null){
       return 
@@ -76,27 +78,9 @@ TextStyle CheckRating(rating){
         color: Colors.black,
         child: Column(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(20),
-                topLeft: Radius.circular(20),
-              ),
-              child: getTargetImage(docs),
-                ),
-
 
       Column(
         children: [
-          Text(
-            docs['author'],
-            style: const TextStyle(
-              fontSize: 20,
-              color: Colors.white,
-              fontWeight: FontWeight.w900,
-              fontStyle: FontStyle.italic,
-              fontFamily: 'Open Sans',
-            ),
-          ),
           Text(
             docs['title'],
             style: const TextStyle(
@@ -118,9 +102,27 @@ TextStyle CheckRating(rating){
                   child: TextButton(
                     style: TextButton.styleFrom(
                         backgroundColor: Colors.red),
-                    onPressed: () => Navigator.popAndPushNamed(context, '/targetInfo'),
+                    onPressed: () => ratingPlus(true),
                     child: const Text(
-                      "Просмотреть",
+                      "Добился",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w900,
+                        fontStyle: FontStyle.italic,
+                        fontFamily: 'Open Sans',
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 40,),
+                Expanded(
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                        backgroundColor: Colors.red),
+                    onPressed: () => ratingPlus(false),
+                    child: const Text(
+                      "Не добился",
                       style: TextStyle(
                         fontWeight: FontWeight.w900,
                         fontStyle: FontStyle.italic,
@@ -138,13 +140,17 @@ TextStyle CheckRating(rating){
       )
     );
   }
-        
+          void ratingPlus (bool isUp) async {
+              CollectionReference deals =  FirebaseFirestore.instance.collection('Users');
+              var deal = await deals.doc(FirebaseAuth.instance.currentUser!.uid).get();
+                        deals.doc(FirebaseAuth.instance.currentUser!.uid).update({
+                        "rating":  isUp? deal['rating'] + 100 :deal['rating'] - 100});
+              }
   
-
   @override
-  Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: FirebaseFirestore.instance.collection("Targets").snapshots(), 
+  Widget build(BuildContext context, ) {
+        return StreamBuilder(
+      stream: FirebaseFirestore.instance.collection('Targets').where('email' , isEqualTo: FirebaseAuth.instance.currentUser!.email).snapshots(),
       builder:  (context, AsyncSnapshot<dynamic> snapshot) {
         if (!snapshot.hasData) {
           return const Center(
@@ -167,7 +173,6 @@ TextStyle CheckRating(rating){
                       ),
                     )
               );
-
         }
       }
     );

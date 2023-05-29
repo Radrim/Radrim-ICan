@@ -1,237 +1,155 @@
-/*
-// ignore_for_file: prefer_const_constructors
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:ican/components/appbar.dart';
+import 'dart:io';
+import 'package:ican/components/target_service.dart';
+import 'package:ican/models/target.dart';
+import 'package:image_picker/image_picker.dart';
 
-import 'targets.dart';
-
-class AddDeal extends StatefulWidget {
-  Target target;
-  String title;
-  bool isEdit;
-
-  AddDeal(this.title, this.deal, this.isEdit, {super.key});
-
+class CreateTargetPage extends StatefulWidget {
   @override
-  State<AddDeal> createState() => _AddDealState();
+  State<CreateTargetPage> createState() => Create();
 }
 
-class _AddDealState extends State<AddDeal> {
-  TextEditingController titleController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
-  TextEditingController imageController = TextEditingController();
-  @override
-  Widget build(BuildContext context) {
-    bool imageTwest() {
-      bool image = false;
-      if (widget.deal.image == null) {
-        image = true;
-      } 
-      else {
-        image = false;
+class Create extends State<CreateTargetPage> {
+  final TargetService _targetService = TargetService();
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final bool _loading = false;
+  Target? newTarget = Target();
+  File? image;
+  String? downloadUrl;
+  ImagePicker imagePicker = ImagePicker();
+ 
+  void showSnackBar(String value) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(value),
+        backgroundColor: Colors.primaries.first,));
+  }
+
+
+  Future pickImage() async {
+    try {
+      final pick = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (pick != null) 
+      {
+        image = File(pick.path);
       }
-      return image;
+      else 
+      {
+        return;
+      }
+
+    } on PlatformException catch (e) {
+      // ignore: avoid_print
+      print('Ошибка при выборе изображения: $e');
     }
-
-    if (widget.deal != null &&
-        (widget.deal.title != null ||
-            widget.deal.description != null ||
-            widget.deal.image != null)) {
-      titleController.text = widget.deal.title.toString();
-      descriptionController.text = widget.deal.description.toString();
-      imageController.text = widget.deal.image.toString();
-    }
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        centerTitle: true,
-        backgroundColor: Color.fromARGB(255, 227, 206, 17),
-      ),
-      body: SingleChildScrollView(
-          child: Center(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.9,
-          child: Column(
-            children: [
-              Visibility(
-                visible: widget.deal.image != "",
-                child: Image.network(widget.deal.image),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.02,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  label: const Text("Title"),
-                  labelStyle: const TextStyle(color: Color(0xFFFFDF4A)),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: const BorderSide(color: Color(0xFFFFDF4A)),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: const BorderSide(color: Color(0xFFFFDF4A)),
-                  ),
-                ),
-                controller: titleController,
-                cursorColor: Colors.amber,
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.02,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  label: const Text("Description"),
-                  labelStyle: const TextStyle(color: Color(0xFFFFDF4A)),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: const BorderSide(color: Color(0xFFFFDF4A)),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: const BorderSide(color: Color(0xFFFFDF4A)),
-                  ),
-                ),
-                controller: descriptionController,
-                cursorColor: Colors.amber,
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  label: const Text("Image"),
-                  labelStyle: const TextStyle(color: Color(0xFFFFDF4A)),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: const BorderSide(color: Color(0xFFFFDF4A)),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: const BorderSide(color: Color(0xFFFFDF4A)),
-                  ),
-                ),
-                controller: imageController,
-                cursorColor: Colors.amber,
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.02,
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.02,
-              ),
-              Visibility(
-                  visible: !widget.isEdit,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.08,
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              widget.deal.title = titleController.text;
-                              widget.deal.description =
-                                  descriptionController.text;
-                              widget.deal.image = imageController.text;
-
-                              CollectionReference deals = FirebaseFirestore
-                                  .instance
-                                  .collection('deals');
-
-                              await deals.add({
-                                'title': widget.deal.title,
-                                'description': widget.deal.description,
-                                'image': widget.deal.image,
-                              });
-
-                              titleController.clear();
-                              descriptionController.clear();
-                              imageController.clear();
-                              Navigator.pop(context);
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Text("Добавить"),
-                                Icon(Icons.add)
-                              ],
-                            ),
-                          )),
-                    ],
-                  )),
-              Visibility(
-                  visible: widget.isEdit,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.08,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color.fromARGB(255, 227, 206, 17)
-                          ),
-                          onPressed: () async {
-                            CollectionReference deals =
-                                FirebaseFirestore.instance.collection('deals');
-                            await deals.doc(widget.deal.id).delete();
-                            titleController.clear();
-                            descriptionController.clear();
-                            imageController.clear();
-                            Navigator.pop(context);
-                          },
-                          child: Row(children: const [
-                            Text("Удалить"),
-                            Icon(Icons.delete)
-                          ]),
-                        ),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.01,
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.08,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color.fromARGB(255, 227, 206, 17)
-                          ),
-                          onPressed: () async {
-                            CollectionReference deals =
-                                FirebaseFirestore.instance.collection('deals');
-                            await deals.doc(widget.deal.id).update({
-                              "title": titleController.text,
-                              "description": descriptionController.text,
-                              "image": imageController.text,
-                            });
-                            titleController.clear();
-                            descriptionController.clear();
-                            imageController.clear();
-                            Navigator.pop(context);
-                          },
-                          child: Row(children: const [
-                            Text("Обновить"),
-                            Icon(Icons.update)
-                          ]),
-                        ),
-                      ),
-                    ],
-                  ))
-            ],
-          ),
-        ),
-      )),
-    );
   }
 
   @override
   void dispose() {
     super.dispose();
-    titleController.dispose();
-    descriptionController.dispose();
-    imageController.dispose();
+    _titleController.dispose();
+    _descriptionController.dispose();
+  }
+  
+final Stream<DocumentSnapshot<Map<String,dynamic>>> _stream = FirebaseFirestore
+                   .instance
+                   .collection('Users')
+                   .doc(FirebaseAuth.instance.currentUser!.uid) // 👈 Your document id change accordingly
+                   .snapshots();
+
+  @override
+  Widget build(BuildContext context) {
+     return Scaffold(
+      appBar: buildAppBar(context),
+      body: Scaffold(
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          child:StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+          stream: _stream, 
+          builder:
+              (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+            if (snapshot.hasError) {
+              return const Text('Something went wrong');
+            }
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              
+            }
+            if (!snapshot.hasData){
+              return const Text('Nothing was found');
+            }
+          Map<String, dynamic> data = snapshot.data!.data()! as Map<String, dynamic>;  
+          return Stack(children: <Widget>[
+            Container(height: 80),
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: TextField(
+                    autofocus: true,
+                    controller: _titleController,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    maxLength: 200,
+                    textInputAction: TextInputAction.next,
+                    style: const TextStyle(fontSize: 32, fontWeight: FontWeight.w700),
+                    decoration: InputDecoration.collapsed(
+                      hintText: 'Название вашей цели',
+                      hintStyle: TextStyle(
+                          color: Colors.grey.shade400,
+                          fontSize: 32,
+                          fontWeight: FontWeight.w700),
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: TextField(
+                    controller: _descriptionController,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    maxLength: 600,
+                    style: const TextStyle(fontSize: 18),
+                    decoration: InputDecoration.collapsed(
+                      hintText: 'Описание цели',
+                      hintStyle: TextStyle(
+                          color: Colors.grey.shade400,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500),
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    foregroundColor: Colors.blue, 
+                    backgroundColor: Colors.red.withOpacity(0.38),
+                  ),
+                  onPressed: () => pickImage(),
+                  child: Text('Выбрать изображение')
+                  ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    foregroundColor: Colors.blue, 
+                    backgroundColor: Colors.red.withOpacity(0.38),
+                  ),
+                  onPressed: () => _targetService.createTarget(context, _titleController.text, _descriptionController.text, data['username'], image),
+                  child: Text('Создать цель'),
+                )
+              ],
+            ),
+          ]);
+          } 
+          ,
+        ),
+      )
+    )
+    )
+    ; 
   }
 }
-*/

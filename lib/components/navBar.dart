@@ -34,15 +34,30 @@ class NavBar extends StatelessWidget {
           padding: EdgeInsets.zero,
           children: [
           UserAccountsDrawerHeader(
-            accountName: Text(data['username']),
-            accountEmail: Text('${user?.email}'),
+            accountName: Text(
+              data['username'],
+              style: const TextStyle(
+                          color: Color.fromARGB(255, 255, 255, 255),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w900,
+                          fontFamily: 'Open Sans',
+                        ),),
+            accountEmail: Text('${user?.email}',
+            style: const TextStyle(
+                          color: Color.fromARGB(255, 209, 209, 209),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w900,
+                          fontFamily: 'Open Sans',
+                        ),),
             currentAccountPicture: CircleAvatar(
               child: ClipOval(
-                child: Image.network('https://oflutter.com/wp-content/uploads/2021/02/girl-profile.png',
-                  fit: BoxFit.cover,
-                  width: 90,
-                  height: 90,
-                ),
+                child:data['image'] == null ? Image.asset('images/Tyler.png',
+                                      height: 90,
+                                      width: 90,
+                                      fit: BoxFit.cover) : Image.network(data['image'],
+                                      height: 90,
+                                      width: 90,
+                                      fit: BoxFit.cover),
               ),
             ),
             decoration: const BoxDecoration(
@@ -58,6 +73,16 @@ class NavBar extends StatelessWidget {
             leading: const Icon(Icons.person),
             title: const Text('Профиль'),
             onTap: () => Navigator.popAndPushNamed(context, '/profile'),
+          ),
+          ListTile(
+            leading: const Icon(Icons.vertical_align_center),
+            title: const Text('Добавить цель'),
+            onTap: () => Navigator.popAndPushNamed(context, '/createTarget'),
+          ),
+          ListTile(
+            leading: const Icon(Icons.description),
+            title: const Text('Мои цели'),
+            onTap: () => Navigator.popAndPushNamed(context, '/userTargets'),
           ),
           ListTile(
             leading: const Icon(Icons.description),
